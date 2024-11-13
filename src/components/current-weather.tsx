@@ -14,7 +14,6 @@ export default function CurrentWeather({ weatherData, locationData }: CurrentWea
     wind: { speed },
   } = weatherData;
 
-  console.log(locationData)
 
   // Format temperature
   const formatTemp = (temp: number) => `${Math.round(temp)}°`;

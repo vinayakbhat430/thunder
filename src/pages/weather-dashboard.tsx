@@ -9,6 +9,7 @@ import {
   useWeatherQuery,
 } from "../hooks/use-weather";
 import CurrentWeather from "../components/current-weather";
+import HourlyTemperature from "../components/hourly-temperature";
 
 const WeatherDashboard = () => {
   const {
@@ -102,15 +103,20 @@ const WeatherDashboard = () => {
           />
         </Button>
       </div>
-      {
-        (weatherQuery.data && locationQuery.data) && <div className="grid gap-6">
-        <CurrentWeather weatherData={weatherQuery?.data} locationData={locationQuery.data?.[0]} />
+      <div className="flex flex-col lg:flex-row gap-4">
+        {weatherQuery.data && locationQuery.data && (
+          <div className="grid gap-6">
+            <CurrentWeather
+              weatherData={weatherQuery?.data}
+              locationData={locationQuery.data?.[0]}
+            />
+          </div>
+        )}
+
+        {forecastQuery.data && <HourlyTemperature data={forecastQuery.data} />}
       </div>
-      }
     </div>
   );
 };
 
 export default WeatherDashboard;
-
-
