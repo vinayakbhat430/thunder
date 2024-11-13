@@ -5,7 +5,7 @@ import LoadingSkeleton from "../components/loading-skeleton";
 import { Alert, AlertTitle, AlertDescription } from "../components/ui/alert";
 import {
   useForecastQuery,
-  useReverseGroCoding,
+  useReverseGeocodeQuery,
   useWeatherQuery,
 } from "../hooks/use-weather";
 import CurrentWeather from "../components/current-weather";
@@ -18,7 +18,7 @@ const WeatherDashboard = () => {
     isLoading,
   } = useGeoLocation();
 
-  const locationQuery = useReverseGroCoding(coordinates);
+  const locationQuery = useReverseGeocodeQuery(coordinates);
   const weatherQuery = useWeatherQuery(coordinates);
   const forecastQuery = useForecastQuery(coordinates);
 
@@ -104,7 +104,7 @@ const WeatherDashboard = () => {
       </div>
       {
         (weatherQuery.data && locationQuery.data) && <div className="grid gap-6">
-        <CurrentWeather data={weatherQuery?.data} locationName={locationQuery.data} />
+        <CurrentWeather weatherData={weatherQuery?.data} locationData={locationQuery.data?.[0]} />
       </div>
       }
     </div>
@@ -112,3 +112,5 @@ const WeatherDashboard = () => {
 };
 
 export default WeatherDashboard;
+
+

@@ -12,7 +12,7 @@ export interface WeatherCondition {
 
 export interface WeatherData{
     coord: Coordinates;
-    weather:WeatherCondition;
+    weather:WeatherCondition[];
     main:{
         temp:number;
         feels_like:number;
