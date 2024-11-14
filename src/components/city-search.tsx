@@ -1,4 +1,4 @@
-import { Clock, Loader2, Search, XCircle } from "lucide-react";
+import { Clock, Loader2, Search, Star, XCircle } from "lucide-react";
 import { useState } from "react";
 import {
   CommandDialog,
@@ -14,6 +14,7 @@ import { useSearchLoaction } from "../hooks/use-weather";
 import { useNavigate } from "react-router-dom";
 import { useSearchHistory } from "../hooks/use-searchhistory";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useFavouries } from "../hooks/use-favourite";
 
 const CitySearch = () => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,7 @@ const CitySearch = () => {
 
   const { data: searchData, isLoading } = useSearchLoaction(query);
   const { history, clearHistory, addToHistory } = useSearchHistory();
+  const { favourites } = useFavouries()
 
 
   const handleSelect = (cityData: string) => {
@@ -38,7 +40,7 @@ const CitySearch = () => {
       country,
     });
 
-    navigate(`/city/${name}?lat-${lat}&lon=&${lon}&country=${country}`);
+    navigate(`/city/${name}?lat=${lat}&lon=${lon}&country=${country}`);
   };
 
   return (
@@ -63,9 +65,26 @@ const CitySearch = () => {
             <CommandEmpty>No Cities found</CommandEmpty>
           )}
           <CommandGroup heading="Favourites">
-            <CommandItem></CommandItem>
-            <CommandItem></CommandItem>
-            <CommandItem></CommandItem>
+          {favourites.map((item:any) => {
+                  return (
+                    <CommandItem
+                      key={`${item.id}`}
+                      value={`${item.lat}|${item.lon}|${item.name}|${item.country}`}
+                      onSelect={handleSelect}
+                    >
+                      <Star className="m-2 h-2 text-yellow-500" />
+                      <span>{item.name}</span>
+                      {item.state && (
+                        <span className="text-sm text-muted-foreground">
+                          , {item.state}
+                        </span>
+                      )}
+                      <span className="text-sm text-muted-foreground">
+                        , {item.country}
+                      </span>
+                    </CommandItem>
+                  )
+                })}
           </CommandGroup>
           <CommandSeparator />
           {history.length > 0 && (
@@ -99,7 +118,7 @@ const CitySearch = () => {
                         , {item.country}
                       </span>
                     </CommandItem>
-                  );
+                  )
                 })}
               </CommandGroup>
               <CommandSeparator />
