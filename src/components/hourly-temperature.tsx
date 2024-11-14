@@ -8,7 +8,6 @@ interface HourlyTemperatureProps {
 }
 
 const HourlyTemperature = ({ data }: HourlyTemperatureProps) => {
-  console.log(data);
   const chartData = data?.list?.slice(0, 8).map((item) => ({
     time: format(new Date(item.dt * 1000), "ha"),
     temp: Math.round(item.main.temp),
@@ -16,7 +15,7 @@ const HourlyTemperature = ({ data }: HourlyTemperatureProps) => {
   }));
   return (
     <Card className="flex-1">
-      <CardHeader>Today's Temperature</CardHeader>
+      <CardHeader className="text-2xl text-start">Today's Temperature</CardHeader>
       <CardContent>
         <div className="h-[200px] w-full">
           <ResponsiveContainer width={"100%"} height={"100%"}>
